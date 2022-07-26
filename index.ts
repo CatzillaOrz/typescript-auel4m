@@ -25,3 +25,5 @@ class ProjectInput {
     this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
 }
+
+const projInput = new ProjectInput();

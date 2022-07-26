@@ -1,6 +1,11 @@
-// Import stylesheets
-import './style.css';
+class ProjectInput {
+  templateElment: HTMLTemplateElement;
+  hostElment: HTMLDivElement;
 
-// Write TypeScript code!
-const appDiv: HTMLElement = document.getElementById('app');
-appDiv.innerHTML = `<h1>TypeScript Starter</h1>`;
+  constructor() {
+    this.templateElment = document.getElementById(
+      'project-input'
+    )! as HTMLTemplateElement;
+    this.hostElment = document.getElementById('app')! as HTMLDivElement;
+  }
+}

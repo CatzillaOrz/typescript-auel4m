@@ -1,3 +1,21 @@
+// autobind decortator
+
+function AutoBind(
+  _target: any,
+  _method: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  const adjustedDescriptor: PropertyDescriptor = {
+    configurable: true,
+    get() {
+      const bindFn = originalMethod.bind(this);
+      return bindFn;
+    },
+  };
+  return adjustedDescriptor;
+}
+
 class ProjectInput {
   templateElment: HTMLTemplateElement;
   hostElement: HTMLDivElement;
@@ -41,13 +59,14 @@ class ProjectInput {
     this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
 
+  @AutoBind
   private submitHandler(event: Event) {
     event.preventDefault();
     console.log(this.titleInputElement.value);
   }
 
   private configure() {
-    this.element.addEventListener('submit', this.submitHandler.bind(this));
+    this.element.addEventListener('submit', this.submitHandler);
   }
 }
 

@@ -30,8 +30,15 @@ class ProjectState {
       numOfPeople: numOfPeople,
     };
     this.projects.push(newProject);
+    for (const listenerFn of this.listener) {
+      listenerFn(this.projects.slice());
+    }
   }
 }
+
+/* Gloabl State */
+
+const projectState = ProjectState.getInstance();
 
 /*
  **  [Validation]
@@ -118,20 +125,38 @@ class ProjectList {
   templateElment: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLFormElement;
+  assignedProjects: any[];
 
   constructor(private type: 'active' | 'finished') {
     this.templateElment = document.getElementById(
       'project-list'
     )! as HTMLTemplateElement;
     this.hostElement = document.getElementById('app')! as HTMLDivElement;
+    this.assignedProjects = [];
 
     const importedNode = document.importNode(this.templateElment.content, true);
 
     this.element = importedNode.firstElementChild as HTMLFormElement;
     this.element.id = `${this.type}-projects`;
 
+    projectState.addListener((projects: any[]) => {
+      this.assignedProjects = projects;
+      this.renderProjects();
+    });
+
     this.attach();
     this.renderContent();
+  }
+
+  private renderProjects() {
+    const listEl = document.getElementById(
+      `${this.type}-projects-list`
+    )! as HTMLUListElement;
+    for (const projItem of this.assignedProjects) {
+      const listItem = document.createElement('li');
+      listItem.textContent = projItem.title;
+      listEl.appendChild(listItem);
+    }
   }
 
   private attach() {
@@ -201,6 +226,7 @@ class ProjectInput {
     const userInput = this.getRawValues();
     if (Array.isArray(userInput)) {
       const [title, desc, people] = userInput;
+      projectState.addProject(title, desc, people);
       this.clearInput();
     }
   }

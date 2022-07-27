@@ -73,7 +73,13 @@ function AutoBind(
   return adjustedDescriptor;
 }
 
-class projectList {
+/*
+ **  [ProjectList]
+ **
+ **
+ */
+
+class ProjectList {
   templateElment: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLFormElement;
@@ -104,6 +110,12 @@ class projectList {
       this.type.toUpperCase() + ' PROJECTS';
   }
 }
+
+/*
+ **  [ProjectInput]
+ **
+ **
+ */
 
 class ProjectInput {
   templateElment: HTMLTemplateElement;
@@ -183,7 +195,7 @@ class ProjectInput {
       required: true,
       min: 1,
       max: 5,
-    }; 
+    };
 
     if (
       !validate(titleValidatable) ||
@@ -204,5 +216,5 @@ class ProjectInput {
 }
 
 const projInput = new ProjectInput();
-const activePrjList = new projectList('active');
-const finishedPrjList = new projectList('finished');
+const activePrjList = new ProjectList('active');
+const finishedPrjList = new ProjectList('finished');

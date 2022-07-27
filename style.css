@@ -1,3 +1,12 @@
-h1, h2 {
+h1,
+h2 {
   font-family: Lato;
+}
+
+.list-group .droppable {
+  background: #ffe3ee;
+}
+
+.list-group #finished-projects .droppable {
+  background: #d6e1ff;
 }

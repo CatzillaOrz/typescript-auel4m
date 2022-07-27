@@ -1,3 +1,5 @@
+import './style.css';
+
 /*
  **  [Drag & Drop] [Interfaces]
  **
@@ -9,7 +11,11 @@ interface Dragable {
   dragEndHandler(event: DragEvent): void;
 }
 
-interface DragTartget {}
+interface DragTartget {
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
+}
 /*
  **  [Project] [ProjectStatus]
  **
@@ -253,7 +259,10 @@ class PorjectItem
  **
  */
 
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList
+  extends Component<HTMLDivElement, HTMLElement>
+  implements DragTartget
+{
   assignedProjects: any[];
 
   constructor(private type: 'active' | 'finished') {
@@ -261,6 +270,22 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     this.assignedProjects = [];
     this.configure();
     this.renderContent();
+  }
+
+  @AutoBind
+  dragOverHandler(event: DragEvent): void {
+    const listEl = this.element.querySelector('ul')!;
+    listEl.classList.add('droppable');
+  }
+
+  @AutoBind
+  dropHandler(event: DragEvent): void {
+    console.log(event);
+  }
+
+  @AutoBind
+  dragLeaveHandler(event: DragEvent): void {
+    console.log(event);
   }
 
   private renderProjects() {
@@ -274,6 +299,9 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   }
 
   configure(): void {
+    this.element.addEventListener('dragover', this.dragOverHandler);
+    this.element.addEventListener('dragleave', this.dragLeaveHandler);
+    this.element.addEventListener('drop', this.dropHandler);
     projectState.addListener((projects: Project[]) => {
       const relevantProject = projects.filter((prj) => {
         if (this.type === 'active') {

@@ -1,9 +1,29 @@
 /*
- **  [ProjectState]
+ **  [Project]
  **
  **
  */
 
+enum ProjectStatus {
+  Actice,
+  Finished,
+}
+
+class Project {
+  constructor(
+    public id: string,
+    public title: string,
+    public description: string,
+    public people: number,
+    public status: ProjectStatus
+  ) {}
+}
+
+/*
+ **  [ProjectState]
+ **
+ **
+ */
 class ProjectState {
   private listener: any[] = [];
   private projects: any[] = [];
@@ -36,7 +56,7 @@ class ProjectState {
   }
 }
 
-/* Gloabl State */
+/* Gloabe State */
 
 const projectState = ProjectState.getInstance();
 

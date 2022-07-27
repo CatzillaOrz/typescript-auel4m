@@ -1,4 +1,24 @@
 /*
+ **  [ProjectState]
+ **
+ **
+ */
+
+class ProjectState {
+  private projects: any[] = [];
+  private static instance: ProjectState;
+
+  private constructor() {}
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new ProjectState();
+    }
+    return this.instance;
+  }
+}
+
+/*
  **  [Validation]
  **
  **

@@ -285,7 +285,8 @@ class ProjectList
 
   @AutoBind
   dragLeaveHandler(event: DragEvent): void {
-    console.log(event);
+    const listEl = this.element.querySelector('ul')!;
+    listEl.classList.remove('droppable');
   }
 
   private renderProjects() {

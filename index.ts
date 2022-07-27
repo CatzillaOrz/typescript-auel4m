@@ -139,41 +139,62 @@ function AutoBind(
 }
 
 /*
+ **  [Components]
+ **
+ **
+ */
+
+abstract class Component<T extends HTMLElement, U extends HTMLElement> {
+  templateElment: HTMLTemplateElement;
+  hostElement: T;
+  element: U;
+
+  constructor(
+    templateId: string,
+    hostElementId: string,
+    insertAtStart: boolean,
+    newElementId?: string
+  ) {
+    this.templateElment = document.getElementById(
+      templateId
+    )! as HTMLTemplateElement;
+    this.hostElement = document.getElementById(hostElementId)! as T;
+    /*
+     **  mportNode(importedNode: DocumentFragment, deep: boolean): DocumentFragment
+     ** Returns a copy of node. If deep is true, the copy also includes the node's descendants.
+     **
+     */
+    const importedNode = document.importNode(this.templateElment.content, true);
+    this.element = importedNode.firstElementChild as U;
+    this.element.id = newElementId;
+
+    this.attach(insertAtStart);
+  }
+
+  private attach(insertAtStart: boolean) {
+    this.hostElement.insertAdjacentElement(
+      insertAtStart ? 'afterbegin' : 'beforeend',
+      this.element
+    );
+  }
+
+  abstract configure(): void;
+  abstract renderContent(): void;
+}
+
+/*
  **  [ProjectList]
  **
  **
  */
 
-class ProjectList {
-  templateElment: HTMLTemplateElement;
-  hostElement: HTMLDivElement;
-  element: HTMLFormElement;
+class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   assignedProjects: any[];
 
   constructor(private type: 'active' | 'finished') {
-    this.templateElment = document.getElementById(
-      'project-list'
-    )! as HTMLTemplateElement;
-    this.hostElement = document.getElementById('app')! as HTMLDivElement;
+    super('project-list', 'app', false, `${type}-projects`);
     this.assignedProjects = [];
-
-    const importedNode = document.importNode(this.templateElment.content, true);
-
-    this.element = importedNode.firstElementChild as HTMLFormElement;
-    this.element.id = `${this.type}-projects`;
-
-    projectState.addListener((projects: Project[]) => {
-      const relevantProject = projects.filter((prj) => {
-        if (this.type === 'active') {
-          return prj.status === ProjectStatus.Actice;
-        }
-        return prj.status === ProjectStatus.Finished;
-      });
-      this.assignedProjects = relevantProject;
-      this.renderProjects();
-    });
-
-    this.attach();
+    this.configure();
     this.renderContent();
   }
 
@@ -190,11 +211,19 @@ class ProjectList {
     }
   }
 
-  private attach() {
-    this.hostElement.insertAdjacentElement('beforeend', this.element);
+  configure(): void {
+    projectState.addListener((projects: Project[]) => {
+      const relevantProject = projects.filter((prj) => {
+        if (this.type === 'active') {
+          return prj.status === ProjectStatus.Actice;
+        }
+        return prj.status === ProjectStatus.Finished;
+      });
+      this.assignedProjects = relevantProject;
+      this.renderProjects();
+    });
   }
-
-  private renderContent() {
+  renderContent() {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector('ul')!.id = listId;
     this.element.querySelector('h2')!.textContent =
@@ -208,30 +237,13 @@ class ProjectList {
  **
  */
 
-class ProjectInput {
-  templateElment: HTMLTemplateElement;
-  hostElement: HTMLDivElement;
-  element: HTMLFormElement;
+class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
   titleInputElement: HTMLInputElement;
   descriptionInputElement: HTMLInputElement;
   peopleInputElement: HTMLInputElement;
 
   constructor() {
-    this.templateElment = document.getElementById(
-      'project-input'
-    )! as HTMLTemplateElement;
-    this.hostElement = document.getElementById('app')! as HTMLDivElement;
-
-    /*
-     **  mportNode(importedNode: DocumentFragment, deep: boolean): DocumentFragment
-     ** Returns a copy of node. If deep is true, the copy also includes the node's descendants.
-     **
-     */
-    const importedNode = document.importNode(this.templateElment.content, true);
-
-    this.element = importedNode.firstElementChild as HTMLFormElement;
-
-    this.element.id = 'user-input';
+    super('project-input', 'app', true, 'user-input');
 
     this.titleInputElement = this.element.querySelector(
       '#title'
@@ -244,11 +256,6 @@ class ProjectInput {
     ) as HTMLInputElement;
 
     this.configure();
-    this.attach();
-  }
-
-  private attach() {
-    this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
 
   @AutoBind
@@ -262,8 +269,12 @@ class ProjectInput {
     }
   }
 
-  private configure() {
+  configure() {
     this.element.addEventListener('submit', this.submitHandler);
+  }
+
+  renderContent(): void {
+    throw new Error('Method not implemented.');
   }
 
   private getRawValues(): [string, string, number] {

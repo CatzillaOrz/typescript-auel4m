@@ -5,6 +5,7 @@
  */
 
 class ProjectState {
+  private listener: any[] = [];
   private projects: any[] = [];
   private static instance: ProjectState;
 
@@ -15,6 +16,20 @@ class ProjectState {
       this.instance = new ProjectState();
     }
     return this.instance;
+  }
+
+  addListener(listenerFn: Function) {
+    this.listener.push(listenerFn);
+  }
+
+  addProject(title: string, description: string, numOfPeople: number) {
+    const newProject = {
+      id: Math.random().toString(),
+      title: title,
+      description: description,
+      numOfPeople: numOfPeople,
+    };
+    this.projects.push(newProject);
   }
 }
 

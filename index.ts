@@ -155,6 +155,7 @@ class ProjectList {
     for (const projItem of this.assignedProjects) {
       const listItem = document.createElement('li');
       listItem.textContent = projItem.title;
+      listItem.className = 'list-group-item';
       listEl.appendChild(listItem);
     }
   }

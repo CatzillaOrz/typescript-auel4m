@@ -20,28 +20,33 @@ class Project {
 }
 
 /*
- **  [ProjectState]
+ **  [ProjectState] extends [State]
  **
  **
  */
+type Listener<T> = (item: T[]) => void;
 
-type Listener = (item: Project[]) => void;
-class ProjectState {
-  private listener: Listener[] = [];
+class State<T> {
+  protected listener: Listener<T>[] = [];
+
+  addListener(listenerFn: Listener<T>) {
+    this.listener.push(listenerFn);
+  }
+}
+
+class ProjectState extends State<Project> {
   private projects: Project[] = [];
   private static instance: ProjectState;
 
-  private constructor() {}
+  private constructor() {
+    super();
+  }
 
   static getInstance() {
     if (!this.instance) {
       this.instance = new ProjectState();
     }
     return this.instance;
-  }
-
-  addListener(listenerFn: Listener) {
-    this.listener.push(listenerFn);
   }
 
   addProject(title: string, description: string, numOfPeople: number) {

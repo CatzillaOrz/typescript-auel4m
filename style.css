@@ -3,10 +3,10 @@ h2 {
   font-family: Lato;
 }
 
-#active-projects .droppable {
+#active-projects .list-group.droppable {
   background: #ffe3ee;
 }
 
-#finished-projects .list-group .droppable {
-  background: #d6e1ff;
+#finished-projects .list-group.droppable {
+  background: #b3bcd4;
 }

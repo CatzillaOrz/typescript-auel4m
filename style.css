@@ -10,3 +10,7 @@ h2 {
 #finished-projects .list-group.droppable {
   background: #b3bcd4;
 }
+
+.list-group {
+  min-height: 20px;
+}

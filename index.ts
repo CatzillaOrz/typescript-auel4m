@@ -246,7 +246,8 @@ class PorjectItem
 
   @AutoBind
   dragStartHandler(event: DragEvent): void {
-    console.log(event);
+    event.dataTransfer!.setData('text/plain', this.project.id);
+    event.dataTransfer!.effectAllowed = 'move';
   }
 
   @AutoBind

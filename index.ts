@@ -67,6 +67,12 @@ class ProjectState extends State<Project> {
     return this.instance;
   }
 
+  private updateListeners() {
+    for (const listenerFn of this.listener) {
+      listenerFn(this.projects.slice());
+    }
+  }
+
   addProject(title: string, description: string, numOfPeople: number) {
     const newProject: Project = new Project(
       Math.random().toString(),
@@ -76,9 +82,15 @@ class ProjectState extends State<Project> {
       ProjectStatus.Actice
     );
     this.projects.push(newProject);
-    for (const listenerFn of this.listener) {
-      listenerFn(this.projects.slice());
+    this.updateListeners();
+  }
+
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find((prj) => prj.id === projectId);
+    if (project && project.status !== newStatus) {
+      project.status = newStatus;
     }
+    this.updateListeners();
   }
 }
 
@@ -274,13 +286,20 @@ class ProjectList
 
   @AutoBind
   dragOverHandler(event: DragEvent): void {
-    const listEl = this.element.querySelector('ul')!;
-    listEl.classList.add('droppable');
+    if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+      event.preventDefault();
+      const listEl = this.element.querySelector('ul')!;
+      listEl.classList.add('droppable');
+    }
   }
 
   @AutoBind
   dropHandler(event: DragEvent): void {
-    console.log(event);
+    const prjId = event.dataTransfer!.getData('text/plain');
+    projectState.moveProject(
+      prjId,
+      this.type === 'active' ? ProjectStatus.Actice : ProjectStatus.Finished
+    );
   }
 
   @AutoBind

@@ -1,26 +1,6 @@
 import './style.css';
 
-/*
- **  [Drag & Drop] [Interfaces]
- **
- **
- */
-
-interface Dragable {
-  dragStartHandler(event: DragEvent): void;
-  dragEndHandler(event: DragEvent): void;
-}
-
-interface DragTartget {
-  dragOverHandler(event: DragEvent): void;
-  dropHandler(event: DragEvent): void;
-  dragLeaveHandler(event: DragEvent): void;
-}
-/*
- **  [Project] [ProjectStatus]
- **
- **
- */
+import { DragTartget, Dragable } from './drag-drop.js';
 
 enum ProjectStatus {
   Actice,

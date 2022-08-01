@@ -1,87 +1,90 @@
-
 /*
-**  [ProjectInput]
-**
-**
-*/
+ **  [ProjectInput]
+ **
+ **
+ */
 
-class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
- titleInputElement: HTMLInputElement;
- descriptionInputElement: HTMLInputElement;
- peopleInputElement: HTMLInputElement;
+import { AutoBind } from 'decorators/autobind';
+import { projectState } from 'state/project-state';
+import { Component } from './base-component';
 
- constructor() {
-   super('project-input', 'app', true, 'user-input');
+export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+  titleInputElement: HTMLInputElement;
+  descriptionInputElement: HTMLInputElement;
+  peopleInputElement: HTMLInputElement;
 
-   this.titleInputElement = this.element.querySelector(
-     '#title'
-   ) as HTMLInputElement;
-   this.descriptionInputElement = this.element.querySelector(
-     '#description'
-   ) as HTMLInputElement;
-   this.peopleInputElement = this.element.querySelector(
-     '#people'
-   ) as HTMLInputElement;
+  constructor() {
+    super('project-input', 'app', true, 'user-input');
 
-   this.configure();
- }
+    this.titleInputElement = this.element.querySelector(
+      '#title'
+    ) as HTMLInputElement;
+    this.descriptionInputElement = this.element.querySelector(
+      '#description'
+    ) as HTMLInputElement;
+    this.peopleInputElement = this.element.querySelector(
+      '#people'
+    ) as HTMLInputElement;
 
- @AutoBind
- private submitHandler(event: Event) {
-   event.preventDefault();
-   const userInput = this.getRawValues();
-   if (Array.isArray(userInput)) {
-     const [title, desc, people] = userInput;
-     projectState.addProject(title, desc, people);
-     this.clearInput();
-   }
- }
+    this.configure();
+  }
 
- configure() {
-   this.element.addEventListener('submit', this.submitHandler);
- }
+  @AutoBind
+  private submitHandler(event: Event) {
+    event.preventDefault();
+    const userInput = this.getRawValues();
+    if (Array.isArray(userInput)) {
+      const [title, desc, people] = userInput;
+      projectState.addProject(title, desc, people);
+      this.clearInput();
+    }
+  }
 
- renderContent(): void {
-   throw new Error('Method not implemented.');
- }
+  configure() {
+    this.element.addEventListener('submit', this.submitHandler);
+  }
 
- private getRawValues(): [string, string, number] {
-   const enteredTitle = this.titleInputElement.value;
-   const enteredDescription = this.descriptionInputElement.value;
-   const enteredPeople = this.peopleInputElement.value;
+  renderContent(): void {
+    throw new Error('Method not implemented.');
+  }
 
-   const titleValidatable: Validatable = {
-     value: enteredTitle,
-     required: true,
-   };
+  private getRawValues(): [string, string, number] {
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDescription = this.descriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
 
-   const descriptionValidatable: Validatable = {
-     value: enteredDescription,
-     required: true,
-     minLength: 5,
-   };
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+    };
 
-   const peopleValidatable: Validatable = {
-     value: enteredPeople,
-     required: true,
-     min: 1,
-     max: 5,
-   };
+    const descriptionValidatable: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minLength: 5,
+    };
 
-   if (
-     !validate(titleValidatable) ||
-     !validate(descriptionValidatable) ||
-     !validate(peopleValidatable)
-   ) {
-     alert('Invalid input, please try anginn!');
-   } else {
-     return [enteredTitle, enteredDescription, +enteredPeople];
-   }
- }
+    const peopleValidatable: Validatable = {
+      value: enteredPeople,
+      required: true,
+      min: 1,
+      max: 5,
+    };
 
- private clearInput() {
-   this.titleInputElement.value = '';
-   this.descriptionInputElement.value = '';
-   this.peopleInputElement.value = '';
- }
+    if (
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(peopleValidatable)
+    ) {
+      alert('Invalid input, please try anginn!');
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+
+  private clearInput() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
 }

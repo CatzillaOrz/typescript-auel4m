@@ -13,6 +13,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
         }),
+        new CleanPlugin.CleanWebpackPlugin(),
     ],
     module: {
         rules: [
@@ -21,10 +22,13 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
         ],
     },
     resolve: {
         extensions: ['.ts', '.js'],
     },
-    plugins: [new CleanPlugin.CleanWebpackPlugin()],
 };

@@ -3,7 +3,7 @@
  **
  **
  */
-function AutoBind(
+export function AutoBind(
   _target: any,
   _method: string,
   descriptor: PropertyDescriptor

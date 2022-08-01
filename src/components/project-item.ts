@@ -5,6 +5,11 @@
  **
  */
 
+ import { AutoBind } from "decorators/autobind";
+import { Dragable } from "models/drag-drop";
+ import { Project } from "state/project-state";
+ import { Component } from "./base-component";
+ 
  class PorjectItem
  extends Component<HTMLUListElement, HTMLLIElement>
  implements Dragable

@@ -4,12 +4,12 @@
  **
  */
 
-enum ProjectStatus {
+export enum ProjectStatus {
   Actice,
   Finished,
 }
 
-class Project {
+export class Project {
   constructor(
     public id: string,
     public title: string,
@@ -34,7 +34,7 @@ class State<T> {
   }
 }
 
-class ProjectState extends State<Project> {
+export class ProjectState extends State<Project> {
   private projects: Project[] = [];
   private static instance: ProjectState;
 
@@ -78,4 +78,4 @@ class ProjectState extends State<Project> {
 
 /* Gloabe State */
 
-const projectState = ProjectState.getInstance();
+export const projectState = ProjectState.getInstance();

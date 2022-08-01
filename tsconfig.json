@@ -1,8 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "ES2015",
-    "lib": ["ES6", "DOM.Iterable", "DOM", "ScriptHost"],
-    "sourceMap": true,
-  }
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "target": "esnext",
+        "module": "ES2015",
+        "lib": ["ES6", "DOM.Iterable", "DOM", "ScriptHost"],
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "removeComments": true,
+        "experimentalDecorators": true
+    },
+    "exclude": ["./*.ts"]
 }

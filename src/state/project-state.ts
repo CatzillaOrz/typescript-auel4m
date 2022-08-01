@@ -1,3 +1,4 @@
+import { Project, ProjectStatus } from "../models/project";
 
 /*
  **  [ProjectState] extends [State]

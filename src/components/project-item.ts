@@ -8,12 +8,11 @@ import { Project } from 'models/project';
 import { AutoBind } from '../decorators/autobind';
 import { Dragable } from '../models/drag-drop';
 
-import { Component } from './base-component';
+import Component from './base-component';
 
 export class PorjectItem
   extends Component<HTMLUListElement, HTMLLIElement>
-  implements Dragable
-{
+  implements Dragable {
   private project: Project;
 
   get persoon() {

@@ -5,15 +5,15 @@
  */
 
 import { AutoBind } from '../decorators/autobind';
-import { DragTartget, Project } from '../models/drag-drop';
-import { projectState, ProjectStatus } from '../state/project-state';
-import { Component } from './base-component';
+import { DragTartget, } from '../models/drag-drop';
+import { Project, ProjectStatus } from '../models/project';
+import { projectState } from '../state/project-state';
+import Component from './base-component';
 import { PorjectItem } from './project-item';
 
 export class ProjectList
   extends Component<HTMLDivElement, HTMLElement>
-  implements DragTartget
-{
+  implements DragTartget {
   assignedProjects: any[];
 
   constructor(private type: 'active' | 'finished') {

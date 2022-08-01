@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "baseUrl": "./src"
+    "module": "ES2015",
+    "lib": ["ES6", "DOM.Iterable", "DOM", "ScriptHost"],
+    "sourceMap": true,
   }
 }

@@ -4,9 +4,9 @@
  **
  */
 
-import { projectState } from 'state/project-state';
-import { Component } from './base-component';
-import { Validatable, validate } from '../util/validation';
+import { projectState } from '../state/project-state';
+import Component from './base-component';
+import * as Validattion from '../util/validation';
 import { AutoBind } from '../decorators/autobind';
 
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
@@ -54,18 +54,18 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
 
-    const titleValidatable: Validatable = {
+    const titleValidatable: Validattion.Validatable = {
       value: enteredTitle,
       required: true,
     };
 
-    const descriptionValidatable: Validatable = {
+    const descriptionValidatable: Validattion.Validatable = {
       value: enteredDescription,
       required: true,
       minLength: 5,
     };
 
-    const peopleValidatable: Validatable = {
+    const peopleValidatable: Validattion.Validatable = {
       value: enteredPeople,
       required: true,
       min: 1,
@@ -73,9 +73,9 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     };
 
     if (
-      !validate(titleValidatable) ||
-      !validate(descriptionValidatable) ||
-      !validate(peopleValidatable)
+      !Validattion.validate(titleValidatable) ||
+      !Validattion.validate(descriptionValidatable) ||
+      !Validattion.validate(peopleValidatable)
     ) {
       alert('Invalid input, please try anginn!');
     } else {

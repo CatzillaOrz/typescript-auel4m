@@ -1,5 +1,6 @@
 const path = require('path');
 const CleanPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'production',
     entry: './src/app.ts',
@@ -8,6 +9,11 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         publicPath: 'dist',
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'src/index.html',
+        }),
+    ],
     module: {
         rules: [
             {

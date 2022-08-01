@@ -1,0 +1,16 @@
+h1,
+h2 {
+  font-family: Lato;
+}
+
+#active-projects .list-group.droppable {
+  background: #ffe3ee;
+}
+
+#finished-projects .list-group.droppable {
+  background: #b3bcd4;
+}
+
+.list-group {
+  min-height: 20px;
+}

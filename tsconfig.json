@@ -5,7 +5,7 @@
         "lib": ["ES6", "DOM.Iterable", "DOM", "ScriptHost"],
         "sourceMap": true,
         "outDir": "./dist",
-        "rootDir": "./src",
+        // "rootDir": "./src",
         "removeComments": true,
         "experimentalDecorators": true
     },

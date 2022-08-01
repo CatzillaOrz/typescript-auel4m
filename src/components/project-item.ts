@@ -4,9 +4,10 @@
  **
  */
 
+import { Project } from 'models/project';
 import { AutoBind } from '../decorators/autobind';
 import { Dragable } from '../models/drag-drop';
-import { Project } from '../state/project-state';
+
 import { Component } from './base-component';
 
 export class PorjectItem

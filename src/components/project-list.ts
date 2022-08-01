@@ -8,8 +8,9 @@ import { AutoBind } from 'decorators/autobind';
 import { DragTartget } from 'models/drag-drop';
 import { Project, projectState, ProjectStatus } from 'state/project-state';
 import { Component } from './base-component';
+import { PorjectItem } from './project-item';
 
-class ProjectList
+export class ProjectList
   extends Component<HTMLDivElement, HTMLElement>
   implements DragTartget
 {
